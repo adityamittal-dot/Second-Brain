@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { UserModel } from './db';
+import jwt from 'jsonwebtoken';
+
+const JWT_PASSWORD = "thisisTHEPASSWORD";
 
 // Load environment variables
 dotenv.config();
@@ -44,20 +47,47 @@ app.post("/api/v1/signup", async (req, res) => {
   //add Zod  validation here and hash the password
   const username = req.body.username;
   const password = req.body.password;
-
-  await UserModel.create({
-    username: username,
-    password: password
+  
+  try {
+    await UserModel.create({
+      username: username,
+      password: password
   })
 
   res.json({
     message: "User is signed Up"
   })
+  } catch(e){
+    res.json({
+      message: "user already exists"
+    })
+  }
+
 })
 
-// app.post("/api/v1/signin", (req, res) => {
+app.post("/api/v1/signin", async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-// })
+  const existingUser = await UserModel.findOne({
+    username,
+    password
+  })
+
+  if(existingUser){
+    const token = jwt.sign({
+      id: existingUser._id
+    }, JWT_PASSWORD)
+
+    res.json({
+      token
+    })
+  } else {
+    res.status(403).json({
+      message: "incorrect credentials"
+    })
+  }
+})
 
 // app.post("/api/v1/content", (req, res) => {
 
