@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { UserModel } from './db';
 
 // Load environment variables
 dotenv.config();
@@ -40,6 +41,15 @@ app.use(express.json());
 
 app.post("/api/v1/signup", (req, res) => {
 
+  //add Zod  validation here and hash the password
+  const username = req.body.username;
+  const password = req.body.password;
+
+  UserModel.create({
+    username: username,
+    password: password
+  })  
+
 })
 
 app.post("/api/v1/signin", (req, res) => {
@@ -63,5 +73,5 @@ app.post("/api/v1/brain/share", (req, res) => {
 })
 
 app.get("/api/v1/brain/:shareLink", (req, res) => {
-  
+
 })
