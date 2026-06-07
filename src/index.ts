@@ -15,25 +15,53 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.get('/', (_req: Request, res: Response) => {
-  res.json({ message: 'Welcome to the SecondBrain API!' });
-});
+// app.get('/', (_req: Request, res: Response) => {
+//   res.json({ message: 'Welcome to the SecondBrain API!' });
+// });
 
-// Connect to MongoDB and start server
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    console.log('Successfully connected to MongoDB.');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
-    console.log('Attempting to start server without MongoDB connection...');
+// // Connect to MongoDB and start server
+// mongoose
+//   .connect(MONGO_URI)
+//   .then(() => {
+//     console.log('Successfully connected to MongoDB.');
+//     app.listen(PORT, () => {
+//       console.log(`Server is running on port ${PORT}`);
+//     });
+//   })
+//   .catch((error) => {
+//     console.error('Error connecting to MongoDB:', error.message);
+//     console.log('Attempting to start server without MongoDB connection...');
     
-    // Start server anyway so the user can verify the HTTP server works
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT} (MongoDB connection failed)`);
-    });
-  });
+//     // Start server anyway so the user can verify the HTTP server works
+//     app.listen(PORT, () => {
+//       console.log(`Server is running on port ${PORT} (MongoDB connection failed)`);
+//     });
+//   });
+
+app.post("/api/v1/signup", (req, res) => {
+
+})
+
+app.post("/api/v1/signin", (req, res) => {
+
+})
+
+app.post("/api/v1/content", (req, res) => {
+
+})
+
+app.get("/api/v1/content", (req, res) => {
+  
+})
+
+app.delete("/api/v1/content", (req, res) => {
+  
+})
+
+app.post("/api/v1/brain/share", (req, res) => {
+
+})
+
+app.get("/api/v1/brain/:shareLink", (req, res) => {
+  
+})
