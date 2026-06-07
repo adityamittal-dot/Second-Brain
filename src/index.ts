@@ -2,12 +2,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { UserModel } from './db';
+import { ContentModel, UserModel } from './db';
 import jwt from 'jsonwebtoken';
+import { JWT_PASSWORD } from './config';
+import { userMiddleware } from './middleware';
 
-const JWT_PASSWORD = "thisisTHEPASSWORD";
-
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -89,9 +88,20 @@ app.post("/api/v1/signin", async (req, res) => {
   }
 })
 
-// app.post("/api/v1/content", (req, res) => {
-
-// })
+app.post("/api/v1/content", userMiddleware, async (req, res) => {
+  const link = req.body.link;
+  const type = req.body.type;
+  await ContentModel.create({
+    link,
+    type,
+    userId: (req as any).userId, // Cast req to any to resolve the TypeScript error
+    tags: []
+  })
+  
+  res.json({
+    message: "Content added successfully"
+  })
+})
 
 // app.get("/api/v1/content", (req, res) => {
 
